@@ -37,6 +37,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b99c6a31-cc56-4f8b-86b0-9f4aab8d5dc8"
+      }
+    },
+    "owner": "gustavotriaquim"
   }
 }
