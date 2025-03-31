@@ -1,8 +1,16 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground, Image } from "react-native";
 import { useRouter } from "expo-router";
+import Swiper from "react-native-swiper";
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
+
+// Definindo as imagens com id
+const images = [
+  { id: '1', source: require('../assets/app-images/portacopo.jpg') },
+  { id: '2', source: require('../assets/app-images/carteira.jpg') },
+  { id: '3', source: require('../assets/app-images/capinha.jpg') },
+];
 
 export default function Home() {
   const router = useRouter();
@@ -11,7 +19,7 @@ export default function Home() {
     router.push('/products');
   };
 
-  return(
+  return (
     <View style={styles.main}>
       <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
         <View style={styles.overlay}>
@@ -19,18 +27,33 @@ export default function Home() {
             <Text style={styles.title}>Nossos Produtos</Text>
             <Text style={styles.subtitle}>Brindes e Utensílios Reaproveitados Especialmene Para Você</Text>
           </View>
-          <Image style={styles.image} source={require('../assets/app-images/portacopo.jpg')} />
+          
+          {/* Swiper Substituindo a Imagem */}
+          <Swiper 
+            style={styles.wrapper} 
+            showsButtons={false}
+            showsPagination={false} 
+            loop 
+            autoplay
+          >
+            {images.map((image) => (
+              <View key={image.id} style={styles.slide}>
+                <Image source={image.source} style={styles.image} />
+              </View>
+            ))}
+          </Swiper>
+
           <View style={styles.buttons}>
             <View style={styles.buttonsIcon}>
               <TouchableOpacity style={styles.buttonIcon}>
-                <FontAwesome 
+                <FontAwesome
                   name="leaf"
                   size={35}
                   color={'#f3c037'}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonIcon}> 
-                <FontAwesome5 
+              <TouchableOpacity style={styles.buttonIcon}>
+                <FontAwesome5
                   name="lightbulb"
                   size={35}
                   color={'#f3c037'}
@@ -85,9 +108,17 @@ const styles = StyleSheet.create({
     fontFamily: 'Judson-Bold',
     color: '#0c0c0c',
   },
+  wrapper: {
+    height: height * 0.6,
+  },
+  slide: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   image: {
-    width: width * 0.5,
+    width: width * 0.65,
     height: height * 0.25,
+    resizeMode: 'contain',
   },
   buttons: {
     gap: height * 0.03,
@@ -117,4 +148,4 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-VariableFont_opsz,wght',
     fontWeight: 'bold',
   },
-})
+});
