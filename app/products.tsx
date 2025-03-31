@@ -1,10 +1,10 @@
-import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View, Dimensions } from "react-native";
+import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View, Dimensions, ScrollView } from "react-native";
 
 const {width, height} = Dimensions.get('window');
 
 export default function Products() {
   return(
-    <View style={styles.main}>
+    <ScrollView contentContainerStyle={styles.main}>
       <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
         <View style={styles.overlay}>
           <View style={styles.infos}>
@@ -22,20 +22,56 @@ export default function Products() {
           </View>
         </View>
       </ImageBackground>
-    </View>
+
+      <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
+        <View style={styles.overlay}>
+          <View style={styles.infos}>
+            <View style={styles.texts}>
+              <Text style={styles.text}>PRODUTO 2</Text>
+              <Image style={styles.image} source={require('../assets/app-images/carteira.jpg')}/>
+              <Text style={styles.text}>R$00,00</Text>
+            </View>
+            <View style={styles.infos}>
+              <Text style={styles.seller}>Vendido por: Yule Brewery</Text>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>RESGATAR PRODUTO 2</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+
+      <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
+        <View style={styles.overlay}>
+          <View style={styles.infos}>
+            <View style={styles.texts}>
+              <Text style={styles.text}>PRODUTO 3</Text>
+              <Image style={styles.image} source={require('../assets/app-images/capinha.jpg')}/>
+              <Text style={styles.text}>R$00,00</Text>
+            </View>
+            <View style={styles.infos}>
+              <Text style={styles.seller}>Vendido por: Yule Brewery</Text>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>RESGATAR PRODUTO 3</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
+    flexGrow: 1,
     alignItems: 'center',
+    paddingVertical: height * 0.05,
   },
   content: {
     width: width,
     height: height * 0.6,
+    marginBottom: height * 0.05,
   },
   overlay: {
     width: width,
