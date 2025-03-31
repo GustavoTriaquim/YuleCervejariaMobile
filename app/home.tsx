@@ -5,7 +5,6 @@ import Swiper from "react-native-swiper";
 
 const { width, height } = Dimensions.get('window');
 
-// Definindo as imagens com id
 const images = [
   { id: '1', source: require('../assets/app-images/portacopo.jpg') },
   { id: '2', source: require('../assets/app-images/carteira.jpg') },
@@ -28,7 +27,6 @@ export default function Home() {
             <Text style={styles.subtitle}>Brindes e Utensílios Reaproveitados Especialmene Para Você</Text>
           </View>
           
-          {/* Swiper Substituindo a Imagem */}
           <Swiper 
             style={styles.wrapper} 
             showsButtons={false}

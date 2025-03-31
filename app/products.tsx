@@ -4,7 +4,7 @@ const {width, height} = Dimensions.get('window');
 
 export default function Products() {
   return(
-    <ScrollView contentContainerStyle={styles.main}>
+    <View style={styles.main}>
       <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
         <View style={styles.overlay}>
           <View style={styles.infos}>
@@ -58,13 +58,12 @@ export default function Products() {
           </View>
         </View>
       </ImageBackground>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   main: {
-    flexGrow: 1,
     alignItems: 'center',
     paddingVertical: height * 0.05,
   },

@@ -5,6 +5,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { useFonts } from "expo-font";
+import { ScrollView, GestureHandlerRootView } from "react-native-gesture-handler";
 
 const {width, height} = Dimensions.get('window');
 const statusBarHeight = getStatusBarHeight();
@@ -20,6 +21,7 @@ export default function Layout() {
 
   const pathname = usePathname();
   const showHeader = pathname !== '/';
+  const showFooter = pathname !== '/';
   const router = useRouter();
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -42,7 +44,7 @@ export default function Layout() {
   },[menuVisible, slideAnim]);
 
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar backgroundColor={'#0c0c0c'}/>
       {showHeader && (
         <>
@@ -50,6 +52,11 @@ export default function Layout() {
           <View style={styles.yellowHeader}>
             <Text style={styles.yellowHeaderText}>APP APENAS PARA MAIORES DE 18 ANOS</Text>
           </View>
+        </>
+      )}
+      
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        {showHeader && (
           <View style={styles.blackHeader}>
             <Image style={styles.headerMenuImage} source={require('../assets/app-images/image 1 (1).png')}/>
             <FontAwesome 
@@ -59,11 +66,18 @@ export default function Layout() {
               onPress={toggleMenu}
             />
           </View>
-        </>
-      )}
-      <View style={styles.content}>
-        <Slot />
-      </View>
+        )}
+        
+        <View style={styles.content}>
+          <Slot />
+        </View>
+  
+        {showFooter && (
+          <TouchableOpacity style={styles.buttonFooter}>
+            <Text style={styles.buttonFooterText}>SOU VENDEDOR</Text>
+          </TouchableOpacity>
+        )}
+      </ScrollView>
 
       <Modal animationType="none" transparent visible={menuVisible} onRequestClose={toggleMenu}>
         <Pressable style={styles.overlay} onPress={toggleMenu}>
@@ -139,7 +153,7 @@ export default function Layout() {
           </Pressable>
         </Pressable>
       </Modal>
-    </>
+    </GestureHandlerRootView>
   );
 }
 
@@ -153,7 +167,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3c037',
     borderBottomColor: '#3d3c3c',
     borderBottomWidth: 3,
-    position: 'fixed',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 100,
   },
   yellowHeaderText: {
     fontSize: width * 0.047,
@@ -168,6 +186,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: height * 0.025,
     paddingHorizontal: width * 0.1,
+    marginTop: statusBarHeight + (height * 0.02),
   },
   headerMenuImage: {
     width: width * 0.3,
@@ -278,5 +297,18 @@ const styles = StyleSheet.create({
     gap: width * 0.03,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonFooter: {
+    paddingVertical: height * 0.025,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0c0c0c',
+    width: width,
+  },
+  buttonFooterText: {
+    color: '#fff',
+    fontFamily: 'Inter-VariableFont_opsz,wght',
+    fontSize: width * 0.05,
+    fontWeight: 'bold',
   },
 });
