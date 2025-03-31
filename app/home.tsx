@@ -1,9 +1,16 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from "react-native";
+import { useRouter } from "expo-router";
 
 const {width, height} = Dimensions.get('window');
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleButtonPress = () => {
+    router.push('/products');
+  };
+
   return(
     <View style={styles.main}>
       <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
@@ -30,7 +37,7 @@ export default function Home() {
                 />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
               <Text style={styles.buttonText}>RESGATAR BRINDE</Text>
             </TouchableOpacity>
           </View>
