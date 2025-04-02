@@ -11,6 +11,8 @@ const {width, height} = Dimensions.get('window');
 const statusBarHeight = getStatusBarHeight();
 
 export default function Layout() {
+  const [yellowHeaderHeight, setYellowHeaderHeight] = useState(0);
+
   const [fontsLoaded] = useFonts({
     'InriaSerif-Regular': require('../assets/fonts/InriaSerif-Regular.ttf'),
     'InriaSerif-Bold': require('../assets/fonts/InriaSerif-Bold.ttf'),
@@ -20,14 +22,23 @@ export default function Layout() {
   });
 
   const pathname = usePathname();
-  const showHeader = pathname !== '/';
-  const showFooter = pathname !== '/';
+  const showYellowHeader = pathname !== '/' && pathname !== '/seller' && pathname !== '/infos' && pathname !== '/doneInfos';
+  const showBlackHeader = pathname !== '/' && pathname !== '/seller';
+  const showFooter = pathname !== '/' && pathname !== '/seller' && pathname !== '/infos' && pathname !== '/doneInfos';
   const router = useRouter();
   const [menuVisible, setMenuVisible] = useState(false);
 
   const toggleMenu = () => setMenuVisible(!menuVisible);
 
   const [slideAnim] = useState(new Animated.Value(300));
+
+  const handleButtonContactPress = () => {
+    router.push('https://g.co/kgs/6x6KZ9e');
+  };
+
+  const handleButtonSellerPress = () => {
+    router.push('/seller');
+  };
 
   useEffect(() => {
     if (menuVisible) {
@@ -46,18 +57,21 @@ export default function Layout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar backgroundColor={'#0c0c0c'}/>
-      {showHeader && (
+      {showYellowHeader && (
         <>
           <StatusBar backgroundColor={'#f3c037'} />
-          <View style={styles.yellowHeader}>
+          <View 
+            style={styles.yellowHeader}
+            onLayout={(event) => setYellowHeaderHeight(event.nativeEvent.layout.height)}
+          >
             <Text style={styles.yellowHeaderText}>APP APENAS PARA MAIORES DE 18 ANOS</Text>
           </View>
         </>
       )}
       
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        {showHeader && (
-          <View style={styles.blackHeader}>
+        {showBlackHeader && (
+          <View style={[styles.blackHeader, { marginTop: showYellowHeader ? yellowHeaderHeight: 0}]}>
             <Image style={styles.headerMenuImage} source={require('../assets/app-images/image 1 (1).png')}/>
             <FontAwesome 
               name="bars"
@@ -73,7 +87,7 @@ export default function Layout() {
         </View>
   
         {showFooter && (
-          <TouchableOpacity style={styles.buttonFooter}>
+          <TouchableOpacity style={styles.buttonFooter} onPress={handleButtonSellerPress}>
             <Text style={styles.buttonFooterText}>SOU VENDEDOR</Text>
           </TouchableOpacity>
         )}
@@ -94,7 +108,7 @@ export default function Layout() {
                 </View>
                 <Text style={styles.menuTitle}>PRODUTOS - COURO VEGETAL 100% VEGANO</Text>
                 <View style={styles.centerButton}>
-                  <TouchableOpacity style={styles.menuButton}>
+                  <TouchableOpacity style={styles.menuButton}  onPress={handleButtonContactPress}>
                     <FontAwesome 
                       name="phone"
                       size={15}
@@ -186,7 +200,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: height * 0.025,
     paddingHorizontal: width * 0.1,
-    marginTop: statusBarHeight + (height * 0.02),
   },
   headerMenuImage: {
     width: width * 0.3,
