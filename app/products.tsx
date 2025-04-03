@@ -1,63 +1,43 @@
-import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View, Dimensions, ScrollView } from "react-native";
+import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View, Dimensions, type ImageSourcePropType} from "react-native";
+import data from '../assets/data/data.json';
 
 const {width, height} = Dimensions.get('window');
+
+const images: { [key: number]: ImageSourcePropType } = {
+  1: require("../assets/app-images/portacopo.jpg"),
+  2: require("../assets/app-images/carteira.jpg"),
+  3: require("../assets/app-images/capinha.jpg"),
+} as const;
 
 export default function Products() {
   return(
     <View style={styles.main}>
-      <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
-        <View style={styles.overlay}>
-          <View style={styles.infos}>
-            <View style={styles.texts}>
-              <Text style={styles.text}>PRODUTO 1</Text>
-              <Image style={styles.image} source={require('../assets/app-images/portacopo.jpg')}/>
-              <Text style={styles.text}>R$00,00</Text>
-            </View>
+      {data.products.map((product) => (
+        <ImageBackground 
+          key={product.id}
+          style={styles.content} 
+          source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}
+        >
+          <View style={styles.overlay}>
             <View style={styles.infos}>
-              <Text style={styles.seller}>Vendido por: Yule Brewery</Text>
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>RESGATAR PRODUTO 1</Text>
-              </TouchableOpacity>
+              <View style={styles.texts}>
+                <Text style={styles.text}>{product.name}</Text>
+                <Image 
+                  style={styles.image} 
+                  source={images[product.id]}
+                />
+                <Text style={styles.text}>{product.price}</Text>
+              </View>
+              <View style={styles.infos}>
+                <Text style={styles.seller}>Vendido por: {product.seller}</Text>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={styles.buttonText}>RESGATAR {product.name}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </ImageBackground>
-
-      <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
-        <View style={styles.overlay}>
-          <View style={styles.infos}>
-            <View style={styles.texts}>
-              <Text style={styles.text}>PRODUTO 2</Text>
-              <Image style={styles.image} source={require('../assets/app-images/carteira.jpg')}/>
-              <Text style={styles.text}>R$00,00</Text>
-            </View>
-            <View style={styles.infos}>
-              <Text style={styles.seller}>Vendido por: Yule Brewery</Text>
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>RESGATAR PRODUTO 2</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </ImageBackground>
-
-      <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
-        <View style={styles.overlay}>
-          <View style={styles.infos}>
-            <View style={styles.texts}>
-              <Text style={styles.text}>PRODUTO 3</Text>
-              <Image style={styles.image} source={require('../assets/app-images/capinha.jpg')}/>
-              <Text style={styles.text}>R$00,00</Text>
-            </View>
-            <View style={styles.infos}>
-              <Text style={styles.seller}>Vendido por: Yule Brewery</Text>
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>RESGATAR PRODUTO 3</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      ))}
     </View>
   );
 }
