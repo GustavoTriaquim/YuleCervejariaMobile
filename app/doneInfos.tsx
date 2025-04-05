@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from "react-native";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -57,6 +57,14 @@ export default function DoneInfos() {
         setCouroProduzido(totalCouro.toFixed(2).replace('.', ','));
         setBagacoRestante(bagacoRestante.toFixed(2).replace('.', ','));
         setEficiencia(eficiencia.toFixed(0));
+
+        await setDoc(doc(db, 'grafico', `grafico_${shortMonthPt}`), {
+          bagasse_production: Number(bagasse_kg.toFixed(2)),
+          leather_production: Number(totalCouro.toFixed(2)),
+          residuos: Number(bagacoRestante.toFixed(2)),
+          eficiencia: Number(eficiencia.toFixed(0)),
+        });
+        
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       }
