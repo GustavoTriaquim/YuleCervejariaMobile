@@ -2,15 +2,72 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View, StyleSheet, Dimensions} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+import { useState } from "react";
 
 const {width, height} = Dimensions.get('window');
 
 export default function Infos() {
+  const [lastBagasse, setLastBagasse] = useState('');
+  const [lastDate, setLastDate] = useState('');
+  
   const router = useRouter();
 
-  const HandleButtonClick = () => {
-    router.push('/doneInfos')
+  const SaveBagasseData = async () => {
+    if (!lastBagasse) {
+      alert("Insira valores válidos!");
+      return;
+    }
+
+    try {
+      const now = new Date();
+      const monthNames = ['jan', 'fev', 'mar', 'abr', 'may', 'jun'];
+      const currentMonth = monthNames[now.getMonth()];
+      const docId = `info_${currentMonth}`;
+
+      const docRef = doc(db, 'infos', docId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const currentBagasse = docSnap.data().bagasse_kg || 0;
+        await updateDoc(docRef, {
+          bagasse_kg: currentBagasse + Number(lastBagasse),
+          date: now,
+        });
+      } else {
+        await setDoc(docRef, { bagasse_kg: Number(lastBagasse), date: now });
+      }
+
+      setLastDate(now.toISOString());
+      setLastBagasse('');
+      setLastDate('');
+
+      alert("Dados atualizados com sucesso!");
+
+    } catch (error) {
+      console.error("Erro ao salvar bagaco:", error);
+    }
   };
+
+  const HandleButtonClick = () => {
+    router.push('/doneInfos');
+  }
+
+  const formatDateInput = (text: string) => {
+    const cleaned = text.replace(/\D/g, '');
+
+    let formatted = '';
+    if (cleaned.length <= 2) {
+      formatted = cleaned;
+    } else if (cleaned.length <= 4) {
+      formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
+    } else {
+      formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}/${cleaned.slice(4, 8)}`;
+    }
+
+    return formatted;
+  }
 
   return(
     <View style={styles.main}>
@@ -23,6 +80,9 @@ export default function Infos() {
               style={styles.input} 
               placeholder="em kg"
               autoCapitalize="none"
+              keyboardType="numeric"
+              value={lastBagasse}
+              onChangeText={(text) => setLastBagasse(text)}
             />
           </View>
           <View style={styles.form}>
@@ -31,10 +91,13 @@ export default function Infos() {
               style={styles.input}
               placeholder="dd/mm/aaaa"
               autoCapitalize="none"
+              keyboardType="numeric"
+              value={lastDate}
+              onChangeText={(text) => setLastDate(formatDateInput(text))}
             />
           </View>
         </View>
-        <TouchableOpacity style={styles.formButton}>
+        <TouchableOpacity style={styles.formButton} onPress={SaveBagasseData}>
           <Text style={styles.buttonText}>SALVAR</Text>
         </TouchableOpacity>
       </View>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "122500828486",
+    "project_id": "yulecervejariadb",
+    "storage_bucket": "yulecervejariadb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122500828486:android:c0ad1deabbdaa620662947",
+        "android_client_info": {
+          "package_name": "com.yulebrewery.yulemobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH1OMQNJ_aZmIShkUzDbKyWN1NOuP0t9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

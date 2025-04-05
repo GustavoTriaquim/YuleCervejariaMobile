@@ -1,14 +1,67 @@
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { db } from '../firebaseConfig';
+import { useState } from "react";
 
 const {width, height} = Dimensions.get('window');
 
 export default function Seller() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorUser, setErrorUser] = useState(false);
+  const [errorPass, setErrorPass] = useState(false);
+  const [authError, setAuthError] = useState(false);
+
   const router = useRouter()
 
-  const HandleFormPress = () => {
-    router.push('/infos')
+  const HandleFormPress = async () => {
+    setErrorUser(false);
+    setErrorPass(false);
+    setAuthError(false);
+
+    if (username.trim() === '' || password.trim() === '') {
+      setErrorUser(username.trim() === '');
+      setErrorPass(password.trim() === '');
+    };
+
+    try {
+      const docRef = doc(db, 'login', 'seller_login');
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+
+        if (data.username !== username) {
+          setErrorUser(true);
+          setUsername('');
+          alert('ALGUMA INFORMAÇÃO ESTÁ INCORRETA!')
+        }
+
+        if (data.password !== password) {
+          setErrorPass(true);
+          setPassword('ALGUMA INFORMAÇÃO ESTÁ INCORRETA!');
+        }
+
+        if (data.username === username && data.password === password) {
+          console.log('Login bem-sucedido!');
+          router.push('/infos');
+        } else {
+          setAuthError(true);
+          setUsername('');
+          setPassword('');
+        }
+      } else {
+        setAuthError(true);
+        setUsername('');
+        setPassword('');
+      }
+    } catch (error) {
+      console.error('Erro na autenticacao:', error);
+      setUsername('');
+      setPassword('');
+    }
   };
 
   const HandleButtonPress = () => {
@@ -23,18 +76,22 @@ export default function Seller() {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>USUÁRIO</Text>
             <TextInput
-              style={styles.input}
-              placeholder="usuário"
-              placeholderTextColor="#f3c037"
+              style={[styles.input, (errorUser || authError) && styles.errorInput]}
+              placeholder='usuário'
+              placeholderTextColor={authError || errorUser ? 'red' : '#f3c037'}
+              value={username}
+              onChangeText={setUsername}
               autoCapitalize="none"
             />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>SENHA</Text>
             <TextInput
-              style={styles.input} 
-              placeholder="senha"
-              placeholderTextColor="#f3c037"
+              style={[styles.input, (errorPass || authError) && styles.errorInput]}
+              placeholder='senha'
+              placeholderTextColor={authError || errorPass ? 'red' : '#f3c037'}
+              value={password}
+              onChangeText={setPassword}
               secureTextEntry
             />
           </View>
@@ -102,6 +159,13 @@ const styles = StyleSheet.create({
     borderColor: '#f3c037',
     borderWidth: 2,
     textAlign: 'center',
+  },
+  errorInput: {
+    width: width * 0.6,
+    backgroundColor: '#ffffff',
+    borderColor: 'red',
+    borderWidth: 2,
+    textAlign: 'center'
   },
   formButton: {
     width: width * 0.6,
