@@ -56,7 +56,7 @@ export default function DoneInfos() {
         setBagacoConvertido(totalBagacoUsado.toFixed(2).replace('.', ','));
         setCouroProduzido(totalCouro.toFixed(2).replace('.', ','));
         setBagacoRestante(bagacoRestante.toFixed(2).replace('.', ','));
-        setEficiencia(eficiencia.toFixed(0));
+        setEficiencia(eficiencia.toFixed(1).replace('.', ','));
 
         await setDoc(doc(db, 'grafico', `grafico_${shortMonthPt}`), {
           bagasse_production: Number(bagasse_kg.toFixed(2)),
