@@ -80,7 +80,7 @@ export default function DoneInfos() {
   return (
     <View style={styles.main}>
       <View style={styles.container}>
-        <Text style={styles.title}>INFORMAÇÕES DO DIA</Text>
+        <Text style={styles.title}>INFORMAÇÕES DO MÊS</Text>
 
         <View style={styles.content}>
           <View style={styles.infos}>
