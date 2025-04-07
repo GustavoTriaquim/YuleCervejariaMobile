@@ -1,7 +1,8 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import { StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground, Image } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground, Image, Modal } from "react-native";
 import { useRouter } from "expo-router";
 import Swiper from "react-native-swiper";
+import { useState } from "react";
 
 const { width, height } = Dimensions.get('window');
 
@@ -12,6 +13,9 @@ const images = [
 ];
 
 export default function Home() {
+  const [leafModalVisible, setLeafModalVisible] = useState(false);
+  const [bulbModalVisible, setBulbModalVisible] = useState(false);
+
   const router = useRouter();
 
   const handleButtonPress = () => {
@@ -19,6 +23,7 @@ export default function Home() {
   };
 
   return (
+  <>
     <View style={styles.main}>
       <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
         <View style={styles.overlay}>
@@ -43,14 +48,14 @@ export default function Home() {
 
           <View style={styles.buttons}>
             <View style={styles.buttonsIcon}>
-              <TouchableOpacity style={styles.buttonIcon}>
+              <TouchableOpacity style={styles.buttonIcon} onPress={() => setLeafModalVisible(true)}>
                 <FontAwesome
                   name="leaf"
                   size={35}
                   color={'#f3c037'}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonIcon}>
+              <TouchableOpacity style={styles.buttonIcon} onPress={() => setBulbModalVisible(true)}>
                 <FontAwesome5
                   name="lightbulb"
                   size={35}
@@ -65,6 +70,69 @@ export default function Home() {
         </View>
       </ImageBackground>
     </View>
+
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={leafModalVisible}
+      onRequestClose={() => setLeafModalVisible(false)}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <View style={styles.titleDiv}>
+            <FontAwesome 
+              name="leaf"
+              size={30}
+              color='#f3c037'
+            />
+            <Text style={styles.modalTitle}>VEGANO</Text>
+            <FontAwesome 
+              name="leaf"
+              size={30}
+              color='#f3c037'
+            />
+          </View>
+          <Text style={styles.modalText}>Na Cervejaria Yule, o bagaço de malte descartado é reaproveitado para produzir couro 100% vegano que é utilizado em nossos brindes, como porta-copos, carteiras, capinhas e etc...</Text>
+          <View style={styles.buttonDiv}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setLeafModalVisible(false)}>
+              <Text style={styles.closeButtonText}>FECHAR</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={bulbModalVisible}
+      onRequestClose={() => setBulbModalVisible(false)}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <View style={styles.titleDiv}>
+            <FontAwesome5 
+              name="lightbulb"
+              size={30}
+              color='#f3c037'
+            />
+            <Text style={styles.modalTitle}>SUSTENTÁVEL</Text>
+            <FontAwesome5 
+              name="lightbulb"
+              size={30}
+              color='#f3c037'
+            />
+          </View>
+          <Text style={styles.modalText}>Na Cervejaria Yule, acreditamos que inovação e sustentabilidade podem andar juntas, oferecendo produtos que refletem nosso compromisso com o meio ambiente e com a valorização de materiais reaproveitados.</Text>
+          <View style={styles.buttonDiv}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setBulbModalVisible(false)}>
+              <Text style={styles.closeButtonText}>FECHAR</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  </>
   );
 }
 
@@ -146,4 +214,53 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-VariableFont_opsz,wght',
     fontWeight: 'bold',
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#f1f1f1',
+    paddingHorizontal: width * 0.03,
+    paddingVertical: height * 0.05,
+    borderColor: '#f3c037',
+    borderWidth: 2,
+    width: width * 0.8,
+    height: height * 0.45,
+    gap: height * 0.02,
+  },
+  titleDiv: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  modalTitle: {
+    fontSize: width * 0.1,
+    textAlign: 'center',
+    fontFamily: 'Judson-Bold',
+  },
+  modalText: {
+    fontSize: width * 0.046,
+    color: '#585858',
+    textAlign: 'justify',
+    marginBottom: height * 0.02,
+    fontFamily: 'Inter-VariableFont_opsz,wght',
+  },
+  buttonDiv: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButton: {
+    backgroundColor: '#0c0c0c',
+    paddingVertical: height * 0.01,
+    width: width * 0.4,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  closeButtonText: {
+    fontWeight: 'bold',
+    color: '#fff',
+  }
 });

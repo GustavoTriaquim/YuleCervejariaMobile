@@ -22,12 +22,38 @@ export default function Infos() {
 
     try {
       const now = new Date();
-      const monthNames = ['jan', 'fev', 'mar', 'abr', 'may', 'jun'];
+      const monthNames = ['jan', 'fev', 'mar', 'abr', 'may'];
       const currentMonth = monthNames[now.getMonth()];
       const docId = `info_${currentMonth}`;
 
       const docRef = doc(db, 'infos', docId);
       const docSnap = await getDoc(docRef);
+
+      const resgatesRef = doc(db, 'resgates', currentMonth);
+      const resgatesSnap = await getDoc(resgatesRef);
+      const produtosResgatados = resgatesSnap.exists() ? resgatesSnap.data().produtos : {};
+
+      const vendas = ['capinha', 'carteira', 'portacopo'];
+      let totalBagasseLoss = 0;
+
+      for (const produto of vendas) {
+        const prodKey = `produtos_${produto}`;
+        const quantidade = produtosResgatados[prodKey] || 0;
+
+        const vendaDoc = await getDoc(doc(db, 'vendas', `produtc_${produto}`));
+        const perdaPorUnidade = vendaDoc.exists() ? vendaDoc.data().malt_bagasse_loss || 0 : 0;
+
+        totalBagasseLoss += quantidade * perdaPorUnidade;
+      }
+
+      const finalDocSnap = await getDoc(docRef);
+      const finalBagasse = finalDocSnap.exists() ? finalDocSnap.data().bagasse_kg || 0 : 0;
+
+      const bagacoPerdidoReal = finalBagasse - totalBagasseLoss;
+
+      await updateDoc(docRef, {
+        bagasse_loss: bagacoPerdidoReal,
+      });
 
       if (docSnap.exists()) {
         const currentBagasse = docSnap.data().bagasse_kg || 0;
