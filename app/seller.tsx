@@ -70,7 +70,7 @@ export default function Seller() {
 
   return(
     <View style={styles.main}>
-      <ImageBackground style={styles.container} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
+      <ImageBackground style={styles.container} source={require('../assets/images/app-images/Texture/soft-plaster-texture.jpg')}>
         <Text style={styles.title}>LOGIN DO VENDEDOR</Text>
         <View style={styles.form}>
           <View style={styles.inputContainer}>

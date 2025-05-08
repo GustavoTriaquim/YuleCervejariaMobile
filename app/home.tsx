@@ -7,9 +7,14 @@ import { useState } from "react";
 const { width, height } = Dimensions.get('window');
 
 const images = [
-  { id: '1', source: require('../assets/app-images/portacopo.jpg') },
-  { id: '2', source: require('../assets/app-images/carteira.jpg') },
-  { id: '3', source: require('../assets/app-images/capinha.jpg') },
+  { id: '1', source: require('../assets/images/app-images/portacopo.jpeg') },
+  { id: '2', source: require('../assets/images/app-images/capinha.jpeg') },
+  { id: '3', source: require('../assets/images/app-images/carteira.jpeg') },
+  { id: '4', source: require('../assets/images/app-images/portagarrafa.jpeg') },
+  { id: '5', source: require('../assets/images/app-images/shoulderbag.jpeg') },
+  { id: '6', source: require('../assets/images/app-images/cinto.jpeg') },
+  { id: '7', source: require('../assets/images/app-images/coleira.jpeg') },
+  { id: '8', source: require('../assets/images/app-images/pulseira.jpeg') },
 ];
 
 export default function Home() {
@@ -25,7 +30,7 @@ export default function Home() {
   return (
   <>
     <View style={styles.main}>
-      <ImageBackground style={styles.content} source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')}>
+      <ImageBackground style={styles.content} source={require('../assets/images/app-images/Texture/soft-plaster-texture.jpg')}>
         <View style={styles.overlay}>
           <View style={styles.texts}>
             <Text style={styles.title}>Nossos Produtos</Text>

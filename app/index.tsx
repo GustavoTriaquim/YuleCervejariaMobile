@@ -11,9 +11,9 @@ export default function Index() {
   };
   
   return(
-    <ImageBackground source={require('../assets/app-images/Texture/soft-plaster-texture.jpg')} style={styles.container} resizeMode="cover">
+    <ImageBackground source={require('../assets/images/app-images/Texture/soft-plaster-texture.jpg')} style={styles.container} resizeMode="cover">
       <View style={styles.content}>
-        <Image source={require("../assets/app-images/image 1 (1).png")} style={styles.logo}/>
+        <Image source={require("../assets/images/app-images/image 1 (1).png")} style={styles.logo}/>
         <View style={styles.textView}>
           <Text style={styles.text}>BEM-VINDO(A) AO NOSSO CATALOGO DE BRINDES!</Text>
           <Text style={styles.subtext}>Tradicao em Cada Gole, Paixao em Cada Lote.</Text>

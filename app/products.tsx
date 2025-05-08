@@ -6,9 +6,14 @@ import { db } from "../firebaseConfig";
 const { width, height } = Dimensions.get("window");
 
 const images: { [key: string]: ImageSourcePropType } = {
-  "product_portacopo": require("../assets/app-images/portacopo.jpg"),
-  "product_carteira": require("../assets/app-images/carteira.jpg"),
-  "product_capinha": require("../assets/app-images/capinha.jpg"),
+  "product_portacopo": require("../assets/images/app-images/portacopo.jpeg"),
+  "product_capinha": require("../assets/images/app-images/capinha.jpeg"),
+  "product_carteira": require("../assets/images/app-images/carteira.jpeg"),
+  "product_portagarrafa": require("../assets/images/app-images/portagarrafa.jpeg"),
+  "product_shoulderbag": require("../assets/images/app-images/shoulderbag.jpeg"),
+  "product_cinto": require("../assets/images/app-images/cinto.jpeg"),
+  "product_coleira": require("../assets/images/app-images/coleira.jpeg"),
+  "product_pulseira": require("../assets/images/app-images/pulseira.jpeg"),
 };
 
 export default function Products() {
@@ -76,7 +81,7 @@ export default function Products() {
           <ImageBackground 
             key={product.id}
             style={styles.content} 
-            source={require("../assets/app-images/Texture/soft-plaster-texture.jpg")}
+            source={require("../assets/images/app-images/Texture/soft-plaster-texture.jpg")}
           >
             <View style={styles.overlay}>
               <View style={styles.infos}>
@@ -130,6 +135,9 @@ const styles = StyleSheet.create({
   },
   texts: {
     gap: height * 0.03,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
     textAlign: "center",
@@ -138,8 +146,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   image: {
-    width: width * 0.5,
-    height: height * 0.25,
+    width: width * 0.55,
+    height: height * 0.3,
   },
   seller: {
     fontSize: width * 0.04,

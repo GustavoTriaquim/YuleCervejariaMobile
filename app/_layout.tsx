@@ -72,7 +72,7 @@ export default function Layout() {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         {showBlackHeader && (
           <View style={[styles.blackHeader, { marginTop: showYellowHeader ? yellowHeaderHeight: 0}]}>
-            <Image style={styles.headerMenuImage} source={require('../assets/app-images/image 1 (1).png')}/>
+            <Image style={styles.headerMenuImage} source={require('../assets/images/app-images/image 1 (1).png')}/>
             <FontAwesome 
               name="bars"
               size={25}
@@ -118,7 +118,7 @@ export default function Layout() {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.centerImage}>
-                  <Image style={styles.headerMenuImage} source={require('../assets/app-images/image 1 (1).png')}/>
+                  <Image style={styles.headerMenuImage} source={require('../assets/images/app-images/image 1 (1).png')}/>
                   <Text style={styles.slogan}>Tradição em Cada Gole, Paixão em Cada Lote.</Text>
                 </View>
                 <View style={styles.infos}>
