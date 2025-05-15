@@ -59,7 +59,7 @@ export default function DoneInfos() {
         setEficiencia(eficiencia.toFixed(1).replace('.', ','));
 
         await setDoc(doc(db, 'grafico', `grafico_${shortMonthPt}`), {
-          bagasse_production: Number(bagasse_kg.toFixed(2)),
+          bagasse_production: Number(totalBagacoUsado.toFixed(2)),
           leather_production: Number(totalCouro.toFixed(2)),
           residuos: Number(bagacoRestante.toFixed(2)),
           eficiencia: Number(eficiencia.toFixed(0)),
