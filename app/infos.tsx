@@ -16,63 +16,37 @@ export default function Infos() {
 
   const SaveBagasseData = async () => {
     if (!lastBagasse) {
-      alert("Insira valores válidos!");
       return;
     }
 
     try {
       const now = new Date();
-      const monthNames = ['jan', 'fev', 'mar', 'abr', 'may'];
+      const monthNames = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
       const currentMonth = monthNames[now.getMonth()];
       const docId = `info_${currentMonth}`;
 
       const docRef = doc(db, 'infos', docId);
       const docSnap = await getDoc(docRef);
 
-      const resgatesRef = doc(db, 'resgates', currentMonth);
-      const resgatesSnap = await getDoc(resgatesRef);
-      const produtosResgatados = resgatesSnap.exists() ? resgatesSnap.data().produtos : {};
-
-      const vendas = ['capinha', 'carteira', 'portacopo'];
-      let totalBagasseLoss = 0;
-
-      for (const produto of vendas) {
-        const prodKey = `produtos_${produto}`;
-        const quantidade = produtosResgatados[prodKey] || 0;
-
-        const vendaDoc = await getDoc(doc(db, 'vendas', `produtc_${produto}`));
-        const perdaPorUnidade = vendaDoc.exists() ? vendaDoc.data().malt_bagasse_loss || 0 : 0;
-
-        totalBagasseLoss += quantidade * perdaPorUnidade;
-      }
-
-      const finalDocSnap = await getDoc(docRef);
-      const finalBagasse = finalDocSnap.exists() ? finalDocSnap.data().bagasse_kg || 0 : 0;
-
-      const bagacoPerdidoReal = finalBagasse - totalBagasseLoss;
-
-      await updateDoc(docRef, {
-        bagasse_loss: bagacoPerdidoReal,
-      });
-
       if (docSnap.exists()) {
         const currentBagasse = docSnap.data().bagasse_kg || 0;
-        await updateDoc(docRef, {
+        await updateDoc(docRef,{
           bagasse_kg: currentBagasse + Number(lastBagasse),
           date: now,
         });
       } else {
-        await setDoc(docRef, { bagasse_kg: Number(lastBagasse), date: now });
+        await setDoc(docRef, {
+          bagasse_kg: Number(lastBagasse),
+          date: now,
+        });
       }
 
-      setLastDate(now.toISOString());
-      setLastBagasse('');
       setLastDate('');
-
+      setLastBagasse('');
       alert("Dados atualizados com sucesso!");
-
     } catch (error) {
-      console.error("Erro ao salvar bagaco:", error);
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar os dados.");
     }
   };
 
