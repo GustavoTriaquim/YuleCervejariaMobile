@@ -5,9 +5,9 @@ This is a mobile app developed with **React Native** and **Expo Go**, designed t
 ## 🖼️ Preview
 
 <p float="left">
-   <img src "./assets/screenshots/app-1.jpeg" width="200" />
-   <img src "./assets/screenshots/app-2.jpeg" width="200" />
-   <img src "./assets/screenshots/app-3.jpeg" width="200" />
+   <img src "./assets/screenshots/appScreenshot-1.jpeg" width="200" />
+   <img src "./assets/screenshots/appScreenshot-2.jpeg" width="200" />
+   <img src "./assets/screenshots/appScreenshot-3.jpeg" width="200" />
 </p>
 
 ## 🎁 Features
