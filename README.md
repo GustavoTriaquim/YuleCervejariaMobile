@@ -32,3 +32,5 @@ This is a mobile app developed with **React Native** and **Expo Go**, designed t
 
 ## 🌿 Sustainability Focus
 This app enables users to engage with a sustainable catalog and helps companies measure the impact of repurposing brewing byproducts into leather-based gifts.
+
+### Made by **Gustavo Triaquim**
